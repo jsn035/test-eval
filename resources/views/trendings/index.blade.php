@@ -1,4 +1,4 @@
-@extends('layouts/app')
+@extends('layouts/front')
 
 @section('content')
 <section id="trendings" class="my-3">
