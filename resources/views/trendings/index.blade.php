@@ -12,7 +12,7 @@
 
 					<!-- poster -->
 					<div class="my-3">
-						<a href="#"><img src="https://image.tmdb.org/t/p/w500/{{ $item->poster_path }}" alt="{{ $item->title }}" class="w-100 border"></a>
+						<a href="{{ url("/trendings/{$item->id}") }}"><img src="https://image.tmdb.org/t/p/w500/{{ $item->poster_path }}" alt="{{ $item->title }}" class="w-100 border"></a>
 					</div>
 
 					<!-- vote -->
