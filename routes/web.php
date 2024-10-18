@@ -3,9 +3,8 @@
 use App\Http\Controllers\TrendingsController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-	return view('welcome');
-});
+
+Route::get('/', [TrendingsController::class, 'index']);
 
 Route::resource('trendings', TrendingsController::class);
 
