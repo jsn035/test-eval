@@ -2,6 +2,18 @@
 
 @section('content')
 <section id="trendings" class="my-3">
+
+	<!-- search -->
+	 <div class="container">
+		<div class="container bg-body py-3 border rounded">
+			<form action="{{ url("/trendings") }}" method="GET" class="text-end">
+				<input type="text" name="search" class="form-control d-inline-block w-auto" placeholder="Rechercher" value="{{ $search }}">
+				<button type="submit" class="btn btn-primary">&rarr;</button>
+			</form>
+		</div>
+	 </div>
+
+	<!-- trendings -->
 	<div class="container my-3">
 		<div class="row row-cols-3 g-3">
 			@foreach($trendings->items() as $item)

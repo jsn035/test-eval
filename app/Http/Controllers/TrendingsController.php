@@ -10,13 +10,29 @@ class TrendingsController extends Controller
 	/**
 	 * Display a listing of the resource.
 	 */
-	public function index()
+	public function index(Request $request)
 	{
+		$search
+			= $request->get('search', '');
+
+		$query
+			= Trending::query();
+
+		if (strlen($search) != 0) {
+			$q
+				= strtoupper($search);
+
+			$query
+				->whereRaw("upper(title) LIKE '%{$q}%'");
+		}
+
 		$trendings
-			= Trending::paginate('9');
+			= $query
+			->paginate(9);
 
 		return view('trendings.index', compact(
 			'trendings',
+			'search'
 		));
 	}
 
