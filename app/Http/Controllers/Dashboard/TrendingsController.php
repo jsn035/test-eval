@@ -35,7 +35,26 @@ class TrendingsController extends Controller
 	 */
 	public function store(StoreTrendingRequest $request)
 	{
-		Trending::create($request->validated());
+		try {
+			Trending::insert([
+				'title'             => $request->get('title', ''),
+				'original_title'    => $request->get('original_title', ''),
+				'media_type'        => $request->get('media_type', ''),
+				'original_language' => $request->get('original_language', ''),
+				'overview'          => $request->get('overview', ''),
+				'poster_path'       => $request->get('poster_path', ''),
+				'popularity'        => $request->get('popularity', ''),
+				'vote_average'      => $request->get('vote_average', ''),
+				'vote_count'        => $request->get('vote_count', ''),
+				'adult'             => false,
+			]);
+
+			$request->session()->flash('flash.banner', 'Le Trending à été enregistré.');
+			$request->session()->flash('flash.bannerStyle', 'success');
+		} catch (\Throwable $th) {
+			$request->session()->flash('flash.banner', $th->getMessage());
+			$request->session()->flash('flash.bannerStyle', 'danger');
+		}
 
 		return redirect('/dashboard/trendings');
 	}
@@ -67,7 +86,16 @@ class TrendingsController extends Controller
 	 */
 	public function update(UpdateTrendingRequest $request, Trending $trending)
 	{
-		$trending->update($request->validated());
+		try {
+			$trending
+				->updateOrFail($request->all());
+
+			$request->session()->flash('flash.banner', 'Le Trending à été enregistré.');
+			$request->session()->flash('flash.bannerStyle', 'success');
+		} catch (\Throwable $th) {
+			$request->session()->flash('flash.banner', $th->getMessage());
+			$request->session()->flash('flash.bannerStyle', 'danger');
+		}
 
 		return redirect('/dashboard/trendings');
 	}
@@ -75,9 +103,17 @@ class TrendingsController extends Controller
 	/**
 	 * Remove the specified resource from storage.
 	 */
-	public function destroy(Trending $trending)
+	public function destroy(Request $request, Trending $trending)
 	{
-		$trending->delete();
+		try {
+			$trending->delete();
+
+			$request->session()->flash('flash.banner', 'Le Trending à été supprimé.');
+			$request->session()->flash('flash.bannerStyle', 'success');
+		} catch (\Throwable $th) {
+			$request->session()->flash('flash.banner', $th->getMessage());
+			$request->session()->flash('flash.bannerStyle', 'danger');
+		}
 
 		return redirect('/dashboard/trendings');
 	}
